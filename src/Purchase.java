@@ -1,10 +1,10 @@
-public class Product {
+public class Purchase {
     private String name = "";
     private int cash=0;
     private String choice = "";
-    private double value = 0;
+    private int value = 0;
 
-    public Product(String input) {
+    public Purchase(String input) {
         String[] parts = input.split("\t");
 
         this.name = parts[0];
@@ -17,7 +17,7 @@ public class Product {
 
         
         this.choice = parts[2];
-        this.value = Double.parseDouble(parts[3]);
+        this.value = Integer.parseInt(parts[3]);
     }
 
     // Getter methods
@@ -33,7 +33,7 @@ public class Product {
         return choice;
     }
 
-    public double getValue() {
+    public int getValue() {
         return value;
     }
 }

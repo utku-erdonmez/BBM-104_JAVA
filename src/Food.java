@@ -72,6 +72,9 @@ public class Food {
     public void updateQuantity(int number) { 
         this.quantity += number;
     }
+    public void DecreaseQuantity() { 
+        this.quantity -= 1;
+    }
     public int getCalories(){
         return (int)Math.round((protein*4)+(karb*4)+(fat*9));
     }
