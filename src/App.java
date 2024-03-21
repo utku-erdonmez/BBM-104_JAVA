@@ -1,3 +1,6 @@
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 public class App {
     private static final int ROWS = 6;
     private static final int COLUMNS = 4;
@@ -5,8 +8,14 @@ public class App {
     private static Food[][] slots = new Food[ROWS][COLUMNS];
 
     public static void main(String[] args) throws Exception {
+
+        String outputPath = args[2];
         
-        String product_path = "Product_2.txt";
+        FileOutputStream fileOutputStream = new FileOutputStream(outputPath);
+        PrintStream printStream = new PrintStream(fileOutputStream);
+        System.setOut(printStream);
+        
+        String product_path = args[0];
         String[] productContent = FileInput.readFile(product_path, false, false);
 
         for (String line : productContent) {
@@ -20,7 +29,7 @@ public class App {
         // Print loaded food items
         printMachine();
         ///
-        String purchase_path = "Purchase_2.txt";
+        String purchase_path = args[1];
         String[] purchaseContent = FileInput.readFile(purchase_path, false, false);
 
         for (String line2 : purchaseContent) {
@@ -28,12 +37,6 @@ public class App {
             Purchase newPurchase = new Purchase(line2);// ınput line
             purchaseFood(newPurchase);
 
-            /*
-             * System.out.println(newProduct.getName());
-             * System.out.println(newProduct.getCash());
-             * System.out.println(newProduct.getChoice());
-             * System.out.println(newProduct.getValue());
-             */
 
         }
         printMachine();
@@ -69,8 +72,8 @@ public class App {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
                 System.out.print(String.format("%s(%s, %s)___",
-                        slots[i][j] != null ? slots[i][j].getName() : "___",
-                        slots[i][j] != null ? slots[i][j].getCalories() : "0",
+                        (slots[i][j] != null && slots[i][j].getQuantity()!=0 )? slots[i][j].getName() : "___",
+                        slots[i][j] != null && slots[i][j].getQuantity()!=0? slots[i][j].getCalories() : "0",
                         slots[i][j] != null ? slots[i][j].getQuantity() : "0"));
             }
             System.out.print("\n");
@@ -110,7 +113,7 @@ public class App {
                 int col=(int)((newPurchase.getValue())%4);
                 //System.out.println(row+"d"+col);
                 if(slots[row][col]==null||slots[row][col].getQuantity()<1){
-                    System.out.println("This slot is empty, your money will be returned.");
+                    System.out.println("INFO: This slot is empty, your money will be returned.");
                 
                     System.out.println("RETURN: Returning your change: "+(newPurchase.getCash())+" TL");
                     return -1;
@@ -137,8 +140,9 @@ public class App {
                             if(slots[i][j].getProtein()+5>=newPurchase.getValue()&& slots[i][j].getProtein()-5<=newPurchase.getValue()){
                
                                 if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
                                     if(slots[i][j].getQuantity()==0) break;
+                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                    
                                     slots[i][j].DecreaseQuantity();
                                     int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
                                     System.out.println("RETURN: Returning your change: "+remainingMoney+" TL");
@@ -161,8 +165,9 @@ public class App {
                             if(slots[i][j].getKarb()+5>=newPurchase.getValue()&& slots[i][j].getKarb()-5<=newPurchase.getValue()){
                
                                 if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                    
                                     if(slots[i][j].getQuantity()==0) break;
+                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
                                     slots[i][j].DecreaseQuantity();
                                     int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
                                     System.out.println("RETURN: Returning your change: "+(remainingMoney)+" TL");
@@ -182,8 +187,9 @@ public class App {
                             if(slots[i][j].getFat()+5>=newPurchase.getValue()&& slots[i][j].getFat()-5<=newPurchase.getValue()){
                
                                 if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                   
                                     if(slots[i][j].getQuantity()==0) break;
+                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
                                     slots[i][j].DecreaseQuantity();
                                     int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
                                     System.out.println("RETURN: Returning your change: "+(remainingMoney)+" TL");
@@ -203,8 +209,9 @@ public class App {
                             if(slots[i][j].getCalories()+5>=newPurchase.getValue()&& slots[i][j].getCalories()-5<=newPurchase.getValue()){
                
                                 if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                    
                                     if(slots[i][j].getQuantity()==0) break;
+                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
                                     slots[i][j].DecreaseQuantity();
                                     int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
                                     System.out.println("RETURN: Returning your change: "+remainingMoney+" TL");

@@ -5,9 +5,9 @@ public class Purchase {
     private int value = 0;
 
     public Purchase(String input) {
+       
         String[] parts = input.split("\t");
 
-        this.name = parts[0];
 
         String[] cashStrings = parts[1].split(" ");
         for (int i = 0; i < cashStrings.length; i++) {
