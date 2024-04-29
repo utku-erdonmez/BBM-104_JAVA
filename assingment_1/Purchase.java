@@ -7,15 +7,10 @@ public class Purchase {
     public Purchase(String input) {
        
         String[] parts = input.split("\t");
-
-
         String[] cashStrings = parts[1].split(" ");
         for (int i = 0; i < cashStrings.length; i++) {
             this.cash += Integer.parseInt(cashStrings[i]);
         }
-
-
-        
         this.choice = parts[2];
         this.value = Integer.parseInt(parts[3]);
     }

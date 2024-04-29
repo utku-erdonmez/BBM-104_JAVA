@@ -6,7 +6,6 @@ public class Main {
     private static final int ROWS = 6;
     private static final int COLUMNS = 4;
     private static Food[][] slots = new Food[ROWS][COLUMNS];
-
     public static void main(String[] args) throws Exception {
         //paths
         String product_path = args[0];
@@ -16,7 +15,6 @@ public class Main {
         FileOutputStream fileOutputStream = new FileOutputStream(outputPath);
         PrintStream printStream = new PrintStream(fileOutputStream);
         System.setOut(printStream);
-        
         // Read products line by line and send them to loadfood function
         String[] productContent = FileInput.readFile(product_path, false, false);
         for (String line : productContent) {
@@ -29,10 +27,9 @@ public class Main {
         }
         // After machine is loaded, print
         printMachine();
-        
-       // Same as load machine, read content and send them to purchase function. Finally print last state //same as load machine read content and send them to purchase function. finally print last state
+       // Same as load machine, read content and send them to purchase function. Finally print last state 
+       //same as load machine read content and send them to purchase function. finally print last state
         String[] purchaseContent = FileInput.readFile(purchase_path, false, false);
-
         for (String line2 : purchaseContent) {
             System.out.println("INPUT: "+line2);
             Purchase newPurchase = new Purchase(line2);
@@ -40,7 +37,6 @@ public class Main {
         }
         printMachine();
     }
-
     public static int loadFood(Food food) {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
@@ -59,15 +55,12 @@ public class Main {
                     System.out.println(String.format("INFO: There is no available place to put %s", food.getName()));
                     if (isMachineFull()) {
                         return -1;
-
                     }
                 }
             }
         }
         return 0;
-
     }
-
     public static void printMachine() {
         System.out.println("-----Gym Meal Machine-----");
         for (int i = 0; i < ROWS; i++) {
@@ -82,7 +75,6 @@ public class Main {
         }
         System.out.println("----------");
     }
-
     public static boolean isMachineFull() {
         int filledSlots = 0;
         // Lookup all slots. If you can't find empty slot, return false
@@ -102,7 +94,6 @@ public class Main {
             return false;
         }
     }
-
     public static int purchaseFood(Purchase newPurchase){
         //" Number" goes to if block,other goes else
         if(newPurchase.getChoice().equals("NUMBER")){
@@ -133,7 +124,6 @@ public class Main {
                         System.out.println("INFO: Insufficient money, try again with more money.");
                         System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
                         return -1;   
-
                     }
                 }
             }
@@ -143,9 +133,7 @@ public class Main {
                 for (int j = 0; j < COLUMNS; j++) {
                     // Switch case
                     switch (newPurchase.getChoice()){
-                        
                         case "PROTEIN":
-
                             if(slots[i][j]==null) break;
                             // Check if product is within +-5 range from requested value
                             if(slots[i][j].getProtein()+5>=newPurchase.getValue()&& slots[i][j].getProtein()-5<=newPurchase.getValue()){
@@ -153,7 +141,6 @@ public class Main {
                                 if(newPurchase.getCash()>slots[i][j].getPrice()){
                                     if(slots[i][j].getQuantity()==0) break;
                                     System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
-                                    
                                     slots[i][j].DecreaseQuantity();
                                     int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
                                     System.out.println("RETURN: Returning your change: "+remainingMoney+" TL");
@@ -164,87 +151,68 @@ public class Main {
                                     System.out.println("INFO: Insufficient money, try again with more money.");
                                     System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
                                     return -1;   
-
                                 }
-
-                                  
                             }
                             break;
                             // Every case below protein has similar content     
                             case "CARB":
-
-
-                            if(slots[i][j]==null) {break;};
-                            if(slots[i][j].getKarb()+5>=newPurchase.getValue()&& slots[i][j].getKarb()-5<=newPurchase.getValue()){
-               
-                                if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                    
-                                    if(slots[i][j].getQuantity()==0) break;
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
-                                    slots[i][j].DecreaseQuantity();
-                                    int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
-                                    System.out.println("RETURN: Returning your change: "+(remainingMoney)+" TL");
+                                if(slots[i][j]==null) {break;};
+                                if(slots[i][j].getKarb()+5>=newPurchase.getValue()&& slots[i][j].getKarb()-5<=newPurchase.getValue()){
+                                    if(newPurchase.getCash()>slots[i][j].getPrice()){
+                                        if(slots[i][j].getQuantity()==0) break;
+                                        System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                        slots[i][j].DecreaseQuantity();
+                                        int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
+                                        System.out.println("RETURN: Returning your change: "+(remainingMoney)+" TL");
+                                    }
+                                    else{
+                                        System.out.println("INFO: Insufficient money, try again with more money.");
+                                        System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
+                                    }
+                                    return 1;     
                                 }
-                                else{
-                                    System.out.println("INFO: Insufficient money, try again with more money.");
-                                    System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
-                                }
-
-                                return 1;     
-                            }
                             break;
-
                             case "FAT":
-
-                            if(slots[i][j]==null) {break;};
-                            if(slots[i][j].getFat()+5>=newPurchase.getValue()&& slots[i][j].getFat()-5<=newPurchase.getValue()){
-               
-                                if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                   
-                                    if(slots[i][j].getQuantity()==0) break;
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
-                                    slots[i][j].DecreaseQuantity();
-                                    int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
-                                    System.out.println("RETURN: Returning your change: "+(remainingMoney)+" TL");
+                                if(slots[i][j]==null) {break;};
+                                if(slots[i][j].getFat()+5>=newPurchase.getValue()&& slots[i][j].getFat()-5<=newPurchase.getValue()){
+                
+                                    if(newPurchase.getCash()>slots[i][j].getPrice()){
+                                        if(slots[i][j].getQuantity()==0) break;
+                                        System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                        slots[i][j].DecreaseQuantity();
+                                        int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
+                                        System.out.println("RETURN: Returning your change: "+(remainingMoney)+" TL");
+                                    }
+                                    else{
+                                        System.out.println("INFO: Insufficient money, try again with more money.");
+                                        System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
+                                    }
+                                    return 1;     
                                 }
-                                else{
-                                    System.out.println("INFO: Insufficient money, try again with more money.");
-                                    System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
-                                }
-
-                                return 1;     
-                            }
                             break;
-
                             case "CALORIE":
-
-                            if(slots[i][j]==null) {break;};
-                            if(slots[i][j].getCalories()+5>=newPurchase.getValue()&& slots[i][j].getCalories()-5<=newPurchase.getValue()){
-               
-                                if(newPurchase.getCash()>slots[i][j].getPrice()){
-                                    
-                                    if(slots[i][j].getQuantity()==0) break;
-                                    System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
-                                    slots[i][j].DecreaseQuantity();
-                                    int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
-                                    System.out.println("RETURN: Returning your change: "+remainingMoney+" TL");
+                                if(slots[i][j]==null) {break;};
+                                if(slots[i][j].getCalories()+5>=newPurchase.getValue()&& slots[i][j].getCalories()-5<=newPurchase.getValue()){
+                                    if(newPurchase.getCash()>slots[i][j].getPrice()){
+                                        if(slots[i][j].getQuantity()==0) break;
+                                        System.out.println("PURCHASE: You have bought one "+slots[i][j].getName());
+                                        slots[i][j].DecreaseQuantity();
+                                        int remainingMoney=(int)(newPurchase.getCash()-slots[i][j].getPrice());
+                                        System.out.println("RETURN: Returning your change: "+remainingMoney+" TL");
+                                    }
+                                    else{
+                                        System.out.println("INFO: Insufficient money, try again with more money.");
+                                        System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
+                                    }
+                                    return 1;     
                                 }
-                                else{
-                                    System.out.println("INFO: Insufficient money, try again with more money.");
-                                    System.out.println("RETURN: Returning your change: "+newPurchase.getCash()+" TL");
-                                }
-
-                                return 1;     
-                            }
                             break;
-                            
                         default:
                             break;
                     }
                 }
         }
         System.out.println("INFO: Product not found, your money will be returned.\nRETURN: Returning your change: "+newPurchase.getCash()+" TL");
-        
 
     }
         return 0;
