@@ -51,7 +51,7 @@ public class Road {
         this.id = id;
     }
 
-    // Static method to access the road list
+    // Static method to access the roadlist
     public static List<Road> getRoadList(){
         return roadList;
     }
